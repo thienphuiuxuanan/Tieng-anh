@@ -1,317 +1,140 @@
-<!DOCTYPE html>
-<html lang="vi" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Master - Chinh Phục Ngữ Pháp Anh</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#ec4899',
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Quicksand', sans-serif; }
-    </style>
-</head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
-
-    <!-- Header / Theme Toggle -->
-    <header class="p-4 flex justify-between items-center max-w-4xl mx-auto w-full">
-        <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">Cà Mini Quiz 🚀</h1>
-        <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 hover:scale-105 transition">
-            <svg id="sun-icon" class="w-6 h-6 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            <svg id="moon-icon" class="w-6 h-6 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        </button>
-    </header>
-
-    <!-- Main Container -->
-    <main class="flex-1 flex items-center justify-center p-4">
-        
-        <!-- Screen 1: Welcome & Name Input -->
-        <div id="screen-welcome" class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 text-center space-y-6">
-            <div class="space-y-2">
-                <span class="text-4xl">📚</span>
-                <h2 class="text-2xl font-bold">Thử Thách Ngữ Pháp</h2>
-                <p class="text-sm text-slate-500 dark:text-slate-400">Chủ động - Bị động & Tương lai đơn - Tương lai gần (50 câu)</p>
-            </div>
-            <div class="space-y-4 text-left">
-                <div>
-                    <label class="block text-sm font-semibold mb-1">Nhập tên của bạn:</label>
-                    <input type="text" id="username" placeholder="Ví dụ: Cà Rốt..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-1">Chọn chế độ:</label>
-                    <select id="mode" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="easy">🌟 Dễ (Cơ bản, rõ ràng)</option>
-                        <option value="hard">🔥 Khó (Nhiều bẫy lừa, đánh lừa tư duy)</option>
-                    </select>
-                </div>
-            </div>
-            <button onclick="startPreparation()" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition transform active:scale-95">Bắt đầu ngay</button>
-        </div>
-
-        <!-- Screen 2: Countdown Effect -->
-        <div id="screen-countdown" class="hidden text-center space-y-4">
-            <p class="text-xl font-medium text-slate-500">Chuẩn bị tinh thần nhé...</p>
-            <div id="countdown-number" class="text-8xl font-black text-indigo-600 animate-bounce">3</div>
-        </div>
-
-        <!-- Screen 3: Quiz Screen -->
-        <div id="screen-quiz" class="hidden w-full max-w-2xl bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 space-y-6">
-            <div class="flex justify-between items-center text-sm font-semibold text-slate-500 dark:text-slate-400">
-                <span id="question-progress">Câu hỏi 1/50</span>
-                <span id="score-badge" class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-full">Điểm: 0</span>
-            </div>
-            
-            <!-- Progress Bar -->
-            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 id="question-title" class="text-lg md:text-xl font-bold leading-relaxed"></h3>
-                <div id="options-container" class="space-y-3"></div>
-            </div>
-
-            <div id="explanation-box" class="hidden p-4 rounded-xl text-sm bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700"></div>
-
-            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition">Câu tiếp theo →</button>
-        </div>
-
-        <!-- Screen 4: Result Screen -->
-        <div id="screen-result" class="hidden w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 text-center space-y-6">
-            <span class="text-6xl">🏆</span>
-            <div class="space-y-2">
-                <h2 class="text-2xl font-bold">Hoàn thành xuất sắc!</h2>
-                <p id="result-name" class="font-semibold text-indigo-600 dark:text-indigo-400"></p>
-                <div id="final-score" class="text-4xl font-black my-4"></div>
-                <p id="result-comment" class="text-sm text-slate-500 dark:text-slate-400"></p>
-            </div>
-            <button onclick="location.reload()" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition">Làm lại bài quiz</button>
-        </div>
-
-    </main>
-
-    <script>
-        // Theme Toggle
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-        }
-
-        // 50 Questions Dataset (Active/Passive + Future Simple/Near Future with Easy & Hard traps)
-        const questionsData = [
-            // --- EASY QUESTIONS (1-25) ---
-            { q: "They will build a new bridge across the river next year.", a: "A new bridge will be built across the river next year.", opts: ["A new bridge will build across the river next year.", "A new bridge will be built across the river next year.", "A new bridge is going to be built across the river next year.", "A new bridge will been built across the river next year."], level: "easy", exp: "Cấu trúc tương lai đơn bị động: Will + be + V3/ed." },
-            { q: "She is going to organize a surprise party for him.", a: "A surprise party is going to be organized for him by her.", opts: ["A surprise party is going to organize for him by her.", "A surprise party is going to be organize for him by her.", "A surprise party is going to be organized for him by her.", "A surprise party will be organized for him by her."], level: "easy", exp: "Tương lai gần bị động: Is/am/are going to + be + V3/ed." },
-            { q: "Will they finish the project tomorrow?", a: "Will the project be finished tomorrow?", opts: ["Will the project finish tomorrow?", "Will be the project finished tomorrow?", "Will the project be finished tomorrow?", "Is the project going to finished tomorrow?"], level: "easy", exp: "Câu hỏi tương lai đơn bị động đảo 'Will' lên đầu: Will + S + be + V3/ed?" },
-            { q: "He will not invite me to the wedding.", a: "I will not be invited to the wedding by him.", opts: ["I will not invite to the wedding by him.", "I will not be invited to the wedding by him.", "I am not going to be invited to the wedding by him.", "I will not been invited to the wedding by him."], level: "easy", exp: "Thể phủ định tương lai đơn bị động: S + will not + be + V3/ed." },
-            { q: "Are you going to wash the car this weekend?", a: "Is the car going to be washed by you this weekend?", opts: ["Are the car going to be washed by you this weekend?", "Is the car going to be washed by you this weekend?", "Will the car be washed by you this weekend?", "Is going to the car be washed by you this weekend?"], level: "easy", exp: "Câu hỏi tương lai gần bị động: Is/am/are + S + going to + be + V3/ed?" },
-            { q: "They will release a new smartphone version next month.", a: "A new smartphone version will be released next month.", opts: ["A new smartphone version will release next month.", "A new smartphone version will be released next month.", "A new smartphone version is going to release next month.", "A new smartphone version will been released next month."], level: "easy", exp: "Chuyển tân ngữ 'A new smartphone version' làm chủ ngữ, theo sau là 'will be released'." },
-            { q: "I am going to buy a new laptop tomorrow.", a: "A new laptop is going to be bought by me tomorrow.", opts: ["A new laptop is going to buy by me tomorrow.", "A new laptop am going to be bought by me tomorrow.", "A new laptop is going to be bought by me tomorrow.", "A new laptop will be bought by me tomorrow."], level: "easy", exp: "Chủ ngữ mới 'A new laptop' số ít nên dùng 'is going to be bought'." },
-            { q: "Will the teacher test our knowledge next week?", a: "Will our knowledge be tested by the teacher next week?", opts: ["Will our knowledge test by the teacher next week?", "Will be our knowledge tested by the teacher next week?", "Will our knowledge be tested by the teacher next week?", "Is our knowledge going to tested next week?"], level: "easy", exp: "Dạng câu hỏi tương lai đơn bị động." },
-            { q: "The company will launch a new product soon.", a: "A new product will be launched by the company soon.", opts: ["A new product will launch by the company soon.", "A new product will be launched by the company soon.", "A new product is going to launch soon.", "A new product will been launched soon."], level: "easy", exp: "Tương lai đơn bị động: will be launched." },
-            { q: "She is going to write a novel next year.", a: "A novel is going to be written by her next year.", opts: ["A novel is going to write by her next year.", "A novel is going to be writed by her next year.", "A novel is going to be written by her next year.", "A novel will be written by her next year."], level: "easy", exp: "Phân từ II của 'write' là 'written'." },
-            { q: "They will clean the room before the party.", a: "The room will be cleaned before the party.", opts: ["The room will clean before the party.", "The room will be clean before the party.", "The room will be cleaned before the party.", "The room is going to clean before the party."], level: "easy", exp: "Tương lai đơn bị động: will be cleaned." },
-            { q: "We are going to plant many trees in the garden.", a: "Many trees are going to be planted in the garden.", opts: ["Many trees is going to be planted in the garden.", "Many trees are going to plant in the garden.", "Many trees are going to be planted in the garden.", "Many trees will plant in the garden."], level: "easy", exp: "Chủ ngữ 'Many trees' số nhiều nên dùng 'are going to be planted'." },
-            { q: "Will they repair your computer tomorrow?", a: "Will your computer be repaired tomorrow?", opts: ["Will your computer repair tomorrow?", "Will your computer be repaired tomorrow?", "Is your computer going to repaired tomorrow?", "Will be your computer repaired tomorrow?"], level: "easy", exp: "Câu hỏi bị động tương lai đơn." },
-            { q: "He will give a presentation at the meeting.", a: "A presentation will be given at the meeting by him.", opts: ["A presentation will give at the meeting by him.", "A presentation will be give at the meeting by him.", "A presentation will be given at the meeting by him.", "A presentation is going to give at the meeting."], level: "easy", exp: "V3 của 'give' là 'given'." },
-            { q: "They are going to build a supermarket here.", a: "A supermarket is going to be built here.", opts: ["A supermarket is going to build here.", "A supermarket is going to be build here.", "A supermarket is going to be built here.", "A supermarket will build here."], level: "easy", exp: "V3 của 'build' là 'built'." },
-            { q: "Will she bake a cake for my birthday?", a: "Will a cake be baked for my birthday by her?", opts: ["Will a cake bake for my birthday by her?", "Will a cake be baked for my birthday by her?", "Is a cake going to baked for my birthday?", "Will be a cake baked for my birthday?"], level: "easy", exp: "Câu hỏi bị động tương lai đơn với 'Will'." },
-            { q: "The manager will sign the contract next Monday.", a: "The contract will be signed by the manager next Monday.", opts: ["The contract will sign by the manager next Monday.", "The contract will be sign by the manager next Monday.", "The contract will be signed by the manager next Monday.", "The contract is going to sign next Monday."], level: "easy", exp: "Tương lai đơn bị động chuẩn." },
-            { q: "I am going to finish this report by 5 PM.", a: "This report is going to be finished by 5 PM.", opts: ["This report is going to finish by 5 PM.", "This report am going to be finished by 5 PM.", "This report is going to be finished by 5 PM.", "This report will finish by 5 PM."], level: "easy", exp: "Chủ ngữ 'This report' số ít đi với 'is going to be finished'." },
-            { q: "Will they deliver the goods next week?", a: "Will the goods be delivered next week?", opts: ["Will the goods deliver next week?", "Will the goods be delivered next week?", "Are the goods going to deliver next week?", "Will be the goods delivered next week?"], level: "easy", exp: "Động từ 'deliver' chuyển sang V3 thành 'delivered'." },
-            { q: "She will answer all your questions later.", a: "All your questions will be answered by her later.", opts: ["All your questions will answer by her later.", "All your questions will be answer by her later.", "All your questions will be answered by her later.", "All your questions are going to answer later."], level: "easy", exp: "Tương lai đơn bị động chuẩn." },
-            { q: "They are going to paint the house blue.", a: "The house is going to be painted blue.", opts: ["The house is going to paint blue.", "The house is going to be paint blue.", "The house is going to be painted blue.", "The house will paint blue."], level: "easy", exp: "Tương lai gần bị động chuẩn." },
-            { q: "Will they catch the thief?", a: "Will the thief be caught?", opts: ["Will the thief catch?", "Will the thief be caught?", "Is the thief going to caught?", "Will be the thief caught?"], level: "easy", exp: "V3 của 'catch' là 'caught'." },
-            { q: "He will fix my bicycle tomorrow.", a: "My bicycle will be fixed by him tomorrow.", opts: ["My bicycle will fix by him tomorrow.", "My bicycle will be fix by him tomorrow.", "My bicycle will be fixed by him tomorrow.", "My bicycle is going to fix tomorrow."], level: "easy", exp: "Tương lai đơn bị động chuẩn." },
-            { q: "We are going to take many photos on the trip.", a: "Many photos are going to be taken on the trip.", opts: ["Many photos is going to be taken on the trip.", "Many photos are going to take on the trip.", "Many photos are going to be taken on the trip.", "Many photos will take on the trip."], level: "easy", exp: "V3 của 'take' là 'taken'." },
-            { q: "Will she choose you for the team?", a: "Will you be chosen for the team by her?", opts: ["Will you choose for the team by her?", "Will you be choose for the team by her?", "Will you be chosen for the team by her?", "Are you going to choose for the team?"], level: "easy", exp: "V3 của 'choose' là 'chosen'." },
-
-            // --- HARD QUESTIONS WITH TRAPS (26-50) ---
-            { q: "Tricky Trap: The weather is terrible; it looks like it ___ rain.", a: "is going to", opts: ["will", "is going to", "shall", "is being to"], level: "hard", exp: "Bẫy phân biệt Tương lai đơn và Tương lai gần: Khi có dấu hiệu/bằng chứng cụ thể ngay trước mắt (thời tiết tệ, mây đen...), ta bắt buộc dùng 'is going to'." },
-            { q: "Tricky Trap: Accidents ___ happen if drivers are careless.", a: "will", opts: ["are going to", "will", "is going to", "shall"], level: "hard", exp: "Dự đoán chung chung không có căn cứ ngay trước mắt hoặc mang tính quy luật/điều kiện thì dùng 'will'." },
-            { q: "Tricky Trap: Look at those black clouds! It ___ rain.", a: "is going to", opts: ["will", "is going to", "shall", "would"], level: "hard", exp: "Dấu hiệu rõ ràng 'nhìn những đám mây đen kìa' -> dùng tương lai gần 'is going to'." },
-            { q: "Tricky Trap (Intransitive Verb): An accident ___ on Main Street tomorrow.", a: "Không thể chuyển sang bị động", opts: ["will be happened", "is going to be happened", "will happen", "will be happen"], level: "hard", exp: "Bẫy kinh điển: Động từ nội intransitive như 'happen, occur, arrive, take place' KHÔNG BAO GIỜ có thể bị động! Đáp án đúng là dạng chủ động 'will happen'." },
-            { q: "Tricky Trap (Modal Passive): They will have to finish the report by tomorrow.", a: "The report will have to be finished by tomorrow.", opts: ["The report will have to finish by tomorrow.", "The report will have to be finished by tomorrow.", "The report is going to have to finish by tomorrow.", "The report will be have to finished by tomorrow."], level: "hard", exp: "Bẫy kết hợp Modal Verb 'have to' trong tương lai đơn bị động: will have to + be + V3/ed." },
-            { q: "Tricky Trap (Causative/Phrasal): Someone is going to break into our house.", a: "Our house is going to be broken into.", opts: ["Our house is going to break into.", "Our house is going to be broken.", "Our house is going to be broken into.", "Our house will be break into."], level: "hard", exp: "Cụm động từ 'break into' khi chuyển sang bị động phải giữ nguyên giới từ 'into' ở cuối." },
-            { q: "Tricky Trap: I think robots ___ do all household chores in 2050.", a: "will", opts: ["are going to", "will", "shall", "is going to"], level: "hard", exp: "Dự đoán dựa trên quan điểm cá nhân bắt đầu bằng 'I think' thường dùng tương lai đơn 'will'." },
-            { q: "Tricky Trap (Negative Question): Won't they fix the bridge next month?", a: "Won't the bridge be fixed next month?", opts: ["Won't the bridge fix next month?", "Won't the bridge be fixed next month?", "Will the bridge not fix next month?", "Isn't the bridge going to fixed next month?"], level: "hard", exp: "Câu hỏi phủ định bị động tương lai đơn: Won't + S + be + V3/ed?" },
-            { q: "Tricky Trap: The plane ___ arrive at 6 PM tomorrow according to schedule.", a: "will", opts: ["is going to", "will", "is arriving", "shall"], level: "hard", exp: "Lịch trình, thời gian biểu cố định trong tương lai thường dùng 'will' hoặc hiện tại đơn, nhưng trong ngữ cảnh này 'will' là chuẩn tương lai." },
-            { q: "Tricky Trap: She ___ probably pass the exam easily.", a: "will", opts: ["is going to", "will", "shall", "is"], level: "hard", exp: "Trạng từ chỉ quan điểm như 'probably, certainly, perhaps' thường đi với tương lai đơn 'will'." },
-            { q: "Tricky Trap (Intransitive Verb): The meeting will take place in the main hall.", a: "Không thể chuyển sang bị động", opts: ["The meeting will be taken place", "The meeting is going to be taken place", "The meeting will take place", "The meeting will be took place"], level: "hard", exp: "Động từ 'take place' là nội động từ, không có dạng bị động." },
-            { q: "Tricky Trap: I'm feeling very tired. I think I ___ go to bed early.", a: "will", opts: ["am going to", "will", "shall", "am to"], level: "hard", exp: "Quyết định bột phát ngay tại thời điểm nói (quyết định ngay lúc cảm thấy mệt) dùng 'will'." },
-            { q: "Tricky Trap: What ___ when you graduate?", a: "are you going to do", opts: ["will you do", "are you going to do", "do you do", "will you doing"], level: "hard", exp: "Hỏi về kế hoạch, dự định đã có sẵn từ trước trong tương lai dùng 'are you going to do'." },
-            { q: "Tricky Trap (Preposition in Passive): People will talk about this scandal for years.", a: "This scandal will be talked about for years.", opts: ["This scandal will talk about for years.", "This scandal will be talked for years.", "This scandal will be talked about for years.", "This scandal is going to talk about."], level: "hard", exp: "Cụm động từ 'talk about' giữ nguyên 'about' khi sang bị động." },
-            { q: "Tricky Trap: By the look of her face, she ___ burst into tears.", a: "is going to", opts: ["will", "is going to", "shall", "would"], level: "hard", exp: "Dấu hiệu nhìn rõ cảm xúc/biểu hiện ngay lúc nói -> dùng tương lai gần 'is going to'." },
-            { q: "Tricky Trap: Nobody will solve this difficult puzzle.", a: "This difficult puzzle will not be solved.", opts: ["This difficult puzzle will be solved.", "This difficult puzzle will not be solved.", "This difficult puzzle is not going to solved.", "Nobody will be solved this puzzle."], level: "hard", exp: "Chủ ngữ 'Nobody' mang nghĩa phủ định nên vế bị động phải có 'not'." },
-            { q: "Tricky Trap: They are going to appoint him as the new director.", a: "He is going to be appointed as the new director.", opts: ["He is going to appoint as the new director.", "He is going to be appointing as the new director.", "He is going to be appointed as the new director.", "He will appoint as the new director."], level: "hard", exp: "Tương lai gần bị động chuẩn với chủ ngữ 'He' -> 'is going to be appointed'." },
-            { q: "Tricky Trap: Will anyone attend the seminar tomorrow?", a: "Will the seminar be attended tomorrow?", opts: ["Will the seminar attend tomorrow?", "Will the seminar be attended tomorrow?", "Is the seminar going to attended?", "Will be the seminar attended?"], level: "hard", exp: "Đại từ bất định 'anyone' ở chủ động có thể lược bỏ khi sang bị động." },
-            { q: "Tricky Trap: The chef is going to prepare a special dish for us.", a: "A special dish is going to be prepared for us.", opts: ["A special dish is going to prepare for us.", "A special dish is going to be prepared for us by us.", "A special dish will prepare for us.", "A special dish is going to been prepared."], level: "hard", exp: "Tương lai gần bị động chuẩn." },
-            { q: "Tricky Trap: I promise I ___ tell anyone your secret.", a: "will not", opts: ["am not going to", "will not", "shall not to", "won't to"], level: "hard", exp: "Lời hứa (promise) luôn đi với 'will'." },
-            { q: "Tricky Trap: Watch out! That heavy box ___ fall.", a: "is going to", opts: ["will", "is going to", "shall", "would"], level: "hard", exp: "Cảnh báo trước mắt 'Watch out!' kết hợp vật nặng sắp rơi -> dùng tương lai gần 'is going to'." },
-            { q: "Tricky Trap: They will have completed the task by next Friday.", a: "The task will have been completed by next Friday.", opts: ["The task will have completed by next Friday.", "The task will have been completed by next Friday.", "The task is going to have completed by next Friday.", "The task will be completed by next Friday."], level: "hard", exp: "Bẫy tương lai hoàn thành bị động: will have + been + V3/ed." },
-            { q: "Tricky Trap: Who will look after your children while you are away?", a: "Who will your children be looked after by?", opts: ["Who will your children look after?", "Who will your children be looked after?", "Who will your children be looked after by?", "By who will your children be looked after?"], level: "hard", exp: "Câu hỏi bắt đầu bằng 'Who' chuyển thành 'Who ... be + V3 + by?' và giữ nguyên cụm 'look after'." },
-            { q: "Tricky Trap: The sun ___ rise at 5:30 AM tomorrow.", a: "will", opts: ["is going to", "will", "shall", "is"], level: "hard", exp: "Sự thật hiển nhiên/quy luật tự nhiên trong tương lai dùng 'will'." },
-            { q: "Tricky Trap: They are going to pull down the old theater.", a: "The old theater is going to be pulled down.", opts: ["The old theater is going to pull down.", "The old theater is going to be pulled down.", "The old theater will pull down.", "The old theater is going to be pull down."], level: "hard", exp: "Cụm động từ 'pull down' giữ nguyên 'down' khi sang bị động." }
-        ];
-
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let playerName = "";
-
-        // Start Preparation & Countdown
-        function startPreparation() {
-            const nameInput = document.getElementById('username').value.trim();
-            playerName = nameInput !== "" ? nameInput : "Cà Rốt";
-            
-            const mode = document.getElementById('mode').value;
-            
-            // Filter questions based on mode
-            if (mode === 'easy') {
-                currentQuestions = questionsData.filter(q => q.level === 'easy');
-            } else {
-                currentQuestions = questionsData.filter(q => q.level === 'hard');
-            }
-            // Shuffle questions
-            currentQuestions.sort(() => Math.random() - 0.5);
-
-            // Switch to countdown screen
-            document.getElementById('screen-welcome').classList.add('hidden');
-            document.getElementById('screen-countdown').classList.remove('hidden');
-
-            let count = 3;
-            const countEl = document.getElementById('countdown-number');
-            countEl.innerText = count;
-
-            const timer = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    countEl.innerText = count;
-                } else if (count === 0) {
-                    countEl.innerText = "Bắt đầu! 🚀";
-                } else {
-                    clearInterval(timer);
-                    document.getElementById('screen-countdown').classList.add('hidden');
-                    document.getElementById('screen-quiz').classList.remove('hidden');
-                    loadQuestion();
-                }
-            }, 1000);
-        }
-
-        // Load Question
-        function loadQuestion() {
-            const q = currentQuestions[currentIndex];
-            document.getElementById('question-progress').innerText = `Câu hỏi ${currentIndex + 1}/${currentQuestions.length}`;
-            document.getElementById('score-badge').innerText = `Điểm: ${score}`;
-            
-            const progressPercent = ((currentIndex) / currentQuestions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
-
-            document.getElementById('question-title').innerText = q.q;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            // Shuffle options
-            let shuffledOpts = [...q.opts].sort(() => Math.random() - 0.5);
-
-            shuffledOpts.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition font-medium";
-                btn.innerText = opt;
-                btn.onclick = () => selectAnswer(btn, opt, q.a, q.exp);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById('explanation-box').classList.add('hidden');
-            document.getElementById('next-btn').classList.add('hidden');
-        }
-
-        // Select Answer
-        function selectAnswer(selectedBtn, selectedOpt, correctOpt, explanation) {
-            const buttons = document.getElementById('options-container').getElementsByTagName('button');
-            
-            // Disable all buttons after choice
-            for (let btn of buttons) {
-                btn.disabled = true;
-                if (btn.innerText === correctOpt) {
-                    btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700', 'dark:bg-green-900/40', 'dark:text-green-300');
-                }
-            }
-
-            if (selectedOpt === correctOpt) {
-                score += 10;
-                selectedBtn.classList.add('bg-green-100', 'border-green-500', 'text-green-700', 'dark:bg-green-900/40', 'dark:text-green-300');
-            } else {
-                selectedBtn.classList.add('bg-red-100', 'border-red-500', 'text-red-700', 'dark:bg-red-900/40', 'dark:text-red-300');
-            }
-
-            document.getElementById('score-badge').innerText = `Điểm: ${score}`;
-
-            // Show explanation
-            const expBox = document.getElementById('explanation-box');
-            expBox.innerHTML = `<strong>💡 Giải thích:</strong> ${explanation}`;
-            expBox.classList.remove('hidden');
-
-            // Show next button
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
-
-        // Next Question
-        function nextQuestion() {
-            currentIndex++;
-            if (currentIndex < currentQuestions.length) {
-                loadQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        // Show Result
-        function showResult() {
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-result').classList.remove('hidden');
-
-            document.getElementById('result-name').innerText = `Thí sinh: ${playerName}`;
-            const maxScore = currentQuestions.length * 10;
-            document.getElementById('final-score').innerText = `${score} / ${maxScore} điểm`;
-
-            let comment = "";
-            const percentage = score / maxScore;
-            if (percentage === 1) {
-                comment = "Quá đỉnh cao! Bạn đã master hoàn toàn phần này rùi nhó~~ 🎉";
-                triggerConfetti();
-            } else if (percentage >= 0.8) {
-                comment = "Làm bài rất tốt đó nha! Cố gắng phát huy đii dợ! 🌟";
-                triggerConfetti();
-            } else if (percentage >= 0.5) {
-                comment = "Khá ổn rùi nhưng còn vài chỗ sập bẫy nha. Ôn lại thêm chút nữa đii! 💪";
-            } else {
-                comment = "Cần cẩn thận hơn với mấy câu bẫy khó nhó. Thử lại lần nữa xem sao nà! 🎈";
-            }
-            document.getElementById('result-comment').innerText = comment;
-        }
-
-        // Confetti Effect
-        function triggerConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Thử thách Ngữ pháp</title>
+<style>
+:root{--bg1:#eef2ff;--bg2:#fdf2f8;--card:#fff;--tx:#1e1b4b;--mu:#6b7280;--pr:#6366f1;--ok:#16a34a;--no:#dc2626;--bd:#e5e7eb;--sh:0 10px 30px rgba(99,102,241,.2);--okb:#dcfce7;--nob:#fee2e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--tx:#f1f5f9;--mu:#94a3b8;--bd:#334155;--pr:#818cf8;--sh:0 10px 30px rgba(0,0,0,.5);--okb:#14532d;--nob:#7f1d1d}}
+:root[data-theme="dark"]{color-scheme:dark;--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--tx:#f1f5f9;--mu:#94a3b8;--bd:#334155;--pr:#818cf8;--sh:0 10px 30px rgba(0,0,0,.5);--okb:#14532d;--nob:#7f1d1d}
+*{box-sizing:border-box}html,body{height:auto;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg1));background-size:300% 300%;animation:bg 14s ease infinite;min-height:100vh;overflow-x:hidden}
+@keyframes bg{50%{background-position:100% 50%}}
+.blob{position:fixed;border-radius:50%;filter:blur(50px);opacity:.35;z-index:0;animation:fl 12s ease-in-out infinite}
+.b1{width:220px;height:220px;background:#6366f1;top:5%;left:-60px}.b2{width:260px;height:260px;background:#ec4899;bottom:5%;right:-80px;animation-delay:-4s}.b3{width:160px;height:160px;background:#f59e0b;top:50%;left:60%;animation-delay:-8s}
+@keyframes fl{50%{transform:translate(40px,-50px) scale(1.2)}}
+#app{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:14px}
+#th{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:10px;z-index:5;border:0;border-radius:50%;width:42px;height:42px;font-size:20px;background:var(--card);box-shadow:var(--sh);cursor:pointer}
+.card{background:var(--card);border-radius:20px;padding:20px;box-shadow:var(--sh);margin-top:50px}
+.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.8);opacity:0}}
+.shake{animation:shk .45s}@keyframes shk{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+h1{margin:0 0 4px;font-size:26px}.mu{color:var(--mu);font-size:14px;margin:0 0 14px}
+label{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
+input{width:100%;padding:12px;border-radius:12px;border:2px solid var(--bd);background:transparent;color:var(--tx);font-size:16px}input:focus{outline:0;border-color:var(--pr)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{border:2px solid var(--bd);background:transparent;color:var(--tx);border-radius:14px;padding:12px;text-align:left;font-size:18px;font-weight:700;cursor:pointer;transition:.2s}
+.mode small{display:block;font-weight:400;font-size:12px;color:var(--mu);margin-top:4px}
+.mode.sel{border-color:var(--pr);background:rgba(99,102,241,.12);transform:scale(1.03)}
+.go,.nx{width:100%;margin-top:18px;padding:14px;border:0;border-radius:14px;font-size:17px;font-weight:700;color:#fff;background:linear-gradient(90deg,#6366f1,#ec4899);cursor:pointer;animation:pl 2s infinite}
+@keyframes pl{50%{box-shadow:0 0 0 8px rgba(99,102,241,.2)}}
+.cd{text-align:center;padding-top:25vh}.num{font-size:120px;font-weight:900;background:linear-gradient(90deg,#6366f1,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent;animation:zm .85s ease-out}
+@keyframes zm{from{transform:scale(2.5);opacity:0}60%{opacity:1}}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;margin:0 50px 8px 0;gap:6px;flex-wrap:wrap}
+.pg{height:10px;background:var(--bd);border-radius:9px;overflow:hidden;margin-bottom:8px}.pg i{display:block;height:100%;background:linear-gradient(90deg,#6366f1,#ec4899);transition:width .4s}
+.tm{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin-bottom:6px}.tm i{display:block;height:100%;background:#f59e0b;transition:width .1s linear}
+.cmb{display:inline-block;background:#f59e0b;color:#fff;border-radius:99px;padding:2px 10px;animation:pop .4s}
+.tag{font-size:12px;color:var(--pr);font-weight:700;text-transform:uppercase}
+.qt{font-size:20px;line-height:1.5;margin:8px 0 16px;font-weight:600}.bl{border-bottom:3px solid var(--pr);padding:0 22px}
+.op{display:flex;gap:10px;width:100%;text-align:left;margin-top:9px;padding:12px;border-radius:12px;border:2px solid var(--bd);background:transparent;color:var(--tx);font-size:16px;cursor:pointer;transition:.15s}
+.op:hover:not(:disabled){border-color:var(--pr);transform:translateX(4px)}.op b{color:var(--pr)}
+.op.ok{background:var(--okb);border-color:var(--ok)}.op.no{background:var(--nob);border-color:var(--no)}.op:disabled{cursor:default}
+.fb{margin-top:12px;padding:12px;border-radius:12px;background:rgba(99,102,241,.1);font-size:14px;animation:pop .3s}
+.cf{position:fixed;top:-20px;width:9px;height:14px;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.big{font-size:56px;font-weight:900;text-align:center;color:var(--pr)}.gr{text-align:center;font-size:22px;font-weight:700}
+.st{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.st div{background:rgba(99,102,241,.1);border-radius:12px;padding:10px;text-align:center;font-size:13px;color:var(--mu)}.st b{display:block;font-size:22px;color:var(--tx)}
+.bar{margin:8px 0;font-size:13px}.bar i{display:block;height:10px;border-radius:9px;background:linear-gradient(90deg,#16a34a,#84cc16);width:0;transition:width 1.2s;margin-top:3px}
+details{margin-top:12px}summary{cursor:pointer;font-weight:700}.rv{border-left:4px solid var(--no);padding:6px 10px;margin:8px 0;font-size:13px;background:var(--nob);border-radius:0 8px 8px 0}
+.sec{background:transparent;border:2px solid var(--bd);color:var(--tx);animation:none}
+</style></head><body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<button id="th" title="Sáng / tối">🌓</button><div id="app"></div>
+<script>
+const RAW=`P|The window ___ (break) by the boy yesterday.|was broken|broke|has been broken|was break|Quá khứ + bị động: was/were + V3.
+P|English ___ (speak) in many countries.|is spoken|speaks|is speaking|are spoken|Hiện tại đơn bị động: am/is/are + V3; English là số ít.
+P|The report ___ (finish) already.|has been finished|has finished|was finishing|have been finished|already → hiện tại hoàn thành; chủ ngữ số ít → has been + V3.
+P|These cars ___ (make) in Japan.|are made|make|are making|is made|Chủ ngữ số nhiều → are + V3.
+F|Look at the sky! It ___ (rain).|is going to rain|will rain|rains|is raining|Có dấu hiệu ở hiện tại → be going to.
+F|Perhaps she ___ (pass) the exam.|will pass|is going to pass|passes|will be passed|Perhaps/probably/I think (phỏng đoán) → will.
+F|We have booked the hotel, so we ___ (visit) Da Nang next month.|are going to visit|will visit|visit|are going to visited|Đã có kế hoạch từ trước → be going to.
+P|The cake ___ (eat) by the children last night.|was eaten|ate|was ate|had eaten|Bị động quá khứ: was + V3 (eaten).
+F|“The phone is ringing.” – “I ___ (answer) it.”|will answer|am going to answer|answer|will be answered|Quyết định tức thời ngay lúc nói → will.
+B|Look! The old house ___ (demolish).|is going to be demolished|is going to demolish|will demolish|will be demolished|Có dấu hiệu + nhà bị phá (bị động) → is going to be + V3.
+P|The homework ___ (not do) yet.|has not been done|has not done|was not done|did not be done|yet → hiện tại hoàn thành bị động.
+B|Tomorrow the winner ___ (announce) by the judges.|will be announced|will announce|was announced|will be announce|Tương lai + người thắng được công bố → will be + V3.
+F|I promise I ___ (not tell) anyone your secret.|will not tell|do not tell|did not tell|am not going to tell|Lời hứa → will (không dùng be going to).
+F|She is pregnant. She ___ (have) a baby in May.|is going to have|will have|has|is going to has|Có dấu hiệu/dự định rõ ràng → be going to.
+P|This song ___ (write) by a famous singer in 1990.|was written|wrote|is written|was wrote|Năm 1990 → quá khứ; bị động = was + V3.
+P|The room ___ (clean) every day.|is cleaned|cleans|is cleaning|is clean|Thói quen hằng ngày, bị động → is + V3.
+P|The thief ___ (arrest) by the police last week.|was arrested|arrested|has been arrested|was arrest|last week → quá khứ đơn, không dùng hiện tại hoàn thành.
+F|Be careful! You ___ (fall).|are going to fall|will fall|fall|are going to fell|Cảnh báo dựa trên tình huống hiện tại → be going to.
+F|It’s so hot. I ___ (open) the window.|will open|am going to open|open|will be opened|Quyết định ngay lúc nói → will.
+B|The meeting ___ (hold) in this room tomorrow.|will be held|will hold|is hold|was held|Cuộc họp “được tổ chức” → bị động; tomorrow → will be held.
+P|Our house ___ (paint) at the moment.|is being painted|is painting|was painted|is painted|at the moment → tiếp diễn bị động: is/are being + V3.
+B|The students ___ (give) a test next Monday.|will be given|will give|gave|will be give|Học sinh “được phát” bài kiểm tra → will be + V3.
+P|The documents must ___ (sign) before Friday.|be signed|sign|signed|be signing|Modal bị động: modal + be + V3.
+F|He has decided to study medicine. He ___ (study) it at university.|is going to study|will study|studies|is going to studied|Đã quyết định từ trước → be going to.
+F|Don’t worry. I ___ (help) you with that.|will help|am going to help|help|will be helped|Lời đề nghị giúp đỡ tại chỗ → will.
+P|The child ___ (take) to school by his father every morning.|is taken|takes|is taking|is take|Thói quen + bị động → is + V3.
+P|This room ___ (use) for meetings since 2020.|has been used|is used|was used|has used|since 2020 → hiện tại hoàn thành bị động.
+B|Many trees ___ (plant) in the park next spring.|will be planted|will plant|are planted|will be plant|Cây “được trồng” + next spring → will be + V3.
+F|Oh, I have a headache. I think I ___ (take) an aspirin.|will take|am going to take|take|will be taken|Quyết định tức thời → will.
+F|She has bought flour and eggs. She ___ (bake) a cake.|is going to bake|will bake|bakes|is going to be baked|Đã chuẩn bị sẵn → be going to; chủ động nên không bị động.
+P|[Bị động] People speak English all over the world.|English is spoken all over the world.|English speaks all over the world.|English is speaking all over the world.|English was spoken all over the world.
+P|[Bị động] They built this school in 1990.|This school was built in 1990.|This school built in 1990.|This school has been built in 1990.|This school is built in 1990.
+P|[Bị động] Someone has stolen my bike.|My bike has been stolen.|My bike was stolen.|My bike has stolen.|My bike have been stolen.
+B|[Bị động] The teacher will give us a test.|We will be given a test by the teacher.|We will give a test by the teacher.|A test will give us by the teacher.|We are given a test by the teacher.
+P|[Chủ động] The cake was made by my mother.|My mother made the cake.|My mother makes the cake.|My mother has made the cake.|My mother was made the cake.
+B|[Chủ động] A new road will be built by the government.|The government will build a new road.|The government will be built a new road.|The government builds a new road.|The government is going to built a new road.
+P|[Chủ động] The letters have been written by Tom.|Tom has written the letters.|Tom wrote the letters.|Tom had written the letters.|Tom have written the letters.
+B|[Bị động] Tom is going to repair the car.|The car is going to be repaired by Tom.|The car will be repaired by Tom.|The car is going to repair by Tom.|The car is being repaired by Tom.
+P|[Bị động] They are painting the walls.|The walls are being painted.|The walls are painted.|The walls were being painted.|The walls are painting.
+P|[Chủ động] The window was broken by Peter.|Peter broke the window.|Peter has broken the window.|Peter was breaking the window.|Peter breaks the window.
+F|[Be going to] I will meet my friends tonight (đã sắp xếp từ trước).|I am going to meet my friends tonight.|I am going to meeting my friends tonight.|I will going to meet my friends tonight.|I going to meet my friends tonight.
+F|[Phủ định] She will come to the party.|She will not come to the party.|She does not come to the party.|She will not comes to the party.|She will not to come to the party.
+F|[Nghi vấn] They will move to London.|Will they move to London?|Do they will move to London?|Are they going to moved to London?|Will they to move to London?
+F|[Phủ định] He is going to sell his car.|He is not going to sell his car.|He does not going to sell his car.|He will not going to sell his car.|He is not going to sells his car.
+F|[Nghi vấn] You are going to buy a new phone.|Are you going to buy a new phone?|Do you going to buy a new phone?|Will you going to buy a new phone?|Are you going to buying a new phone?
+B|[Bị động] Someone will clean the office tomorrow.|The office will be cleaned tomorrow.|The office will clean tomorrow.|The office is cleaned tomorrow.|The office will be cleaning tomorrow.
+B|[Bị động] The company is going to launch a new product.|A new product is going to be launched by the company.|A new product will be launched by the company.|A new product is going to launch by the company.|A new product is going to be launching by the company.
+P|[Bị động] They did not invite me to the party.|I was not invited to the party.|I did not invited to the party.|I was not invite to the party.|I have not been invited to the party.
+P|[Bị động – nghi vấn] Did someone open the door?|Was the door opened?|Did the door open?|Was the door open?|Is the door opened?
+P|[Bị động] You must finish this work today.|This work must be finished today.|This work must finish today.|This work must be finish today.|This work is must finished today.`;
+const DEF={P:"Giữ nguyên thì của câu gốc; bị động = be + V3.",F:"Will + V (tức thời, hứa, phỏng đoán); be going to + V (dự định, có dấu hiệu).",B:"Tương lai bị động: will be + V3 / is (am, are) going to be + V3."};
+const Q=RAW.trim().split("\n").map(l=>{const [c,q,a,w1,w2,w3,h]=l.split("|");return{c,q,a,w:[w1,w2,w3],h:h||DEF[c]}});
+const CAT={P:"Chủ động ⇄ Bị động",F:"Tương lai đơn ⇄ gần",B:"Bị động tương lai"};
+const $=s=>document.querySelector(s),app=$("#app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const st={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let S={mode:"easy"},tmr;
+const th=st.get("theme");if(th)document.documentElement.dataset.theme=th;
+$("#th").onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const n=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=n;st.set("theme",n)};
+function confetti(n){const cl=["#6366f1","#ec4899","#f59e0b","#22c55e","#06b6d4"];for(let i=0;i<n;i++){const e=document.createElement("i");e.className="cf";e.style.cssText=`left:${Math.random()*100}vw;background:${cl[i%5]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),4500)}}
+function home(){const nm=st.get("name")||"";app.innerHTML=`<div class="card pop"><h1>📚 Thử thách Ngữ pháp</h1><p class="mu">50 câu · Chủ động ⇄ Bị động · Tương lai đơn ⇄ Tương lai gần</p><label>Tên của bạn</label><input id="nm" maxlength="20" placeholder="Nhập tên…" value="${esc(nm)}"><label>Chế độ</label><div class="modes"><button class="mode sel" data-m="easy">🌱 Dễ<small>3 đáp án · có gợi ý · không giới hạn giờ</small><small>Kỷ lục: ${st.get("best_easy")||0}</small></button><button class="mode" data-m="hard">🔥 Khó<small>4 đáp án có bẫy · không gợi ý · 20 giây/câu · sai bị trừ điểm</small><small>Kỷ lục: ${st.get("best_hard")||0}</small></button></div><button class="go" id="go">Bắt đầu ➜</button></div>`;S.mode="easy";
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");S.mode=b.dataset.m});
+$("#go").onclick=()=>{const v=$("#nm").value.trim();if(!v){const c=$(".card");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");$("#nm").focus();return}st.set("name",v);S={mode:S.mode,name:v,order:sh(Q),i:0,score:0,streak:0,best:0,log:[]};countdown()}}
+function countdown(){app.innerHTML=`<div class="cd"><div class="num" id="cn">3</div><p class="gr">Sẵn sàng nào, <span id="cname"></span>!</p></div>`;$("#cname").textContent=S.name;const seq=["3","2","1","GO!"];let k=0;const n=$("#cn");const t=setInterval(()=>{k++;if(k>=seq.length){clearInterval(t);confetti(40);return setTimeout(showQ,600)}n.textContent=seq[k];n.style.animation="none";void n.offsetWidth;n.style.animation=""},850)}
+function showQ(){const q=S.order[S.i],hard=S.mode==="hard";S.opts=sh([q.a,...q.w.slice(0,hard?3:2)]);const tr=q.q[0]==="[";
+const qt=esc(q.q).replace(/___/g,'<span class="bl"></span>');
+app.innerHTML=`<div class="top"><span>👤 ${esc(S.name)}</span><span>Câu ${S.i+1}/${Q.length}</span><span>⭐ <b id="sc">${S.score}</b></span>${S.streak>=3?`<span class="cmb">🔥 x${S.streak}</span>`:""}</div><div class="pg"><i style="width:${S.i/Q.length*100}%"></i></div>${hard?'<div class="tm"><i id="tb" style="width:100%"></i></div>':""}<div class="card pop" id="cd" style="margin-top:8px"><div class="tag">${tr?"Chuyển câu":"Điền vào chỗ trống"} · ${hard?"Khó":"Dễ"}</div><div class="qt">${qt}</div><div id="ops">${S.opts.map((o,i)=>`<button class="op" data-i="${i}"><b>${"ABCD"[i]}</b><span>${esc(o)}</span></button>`).join("")}</div><div id="fx"></div></div>`;
+document.querySelectorAll(".op").forEach(b=>b.onclick=()=>ans(+b.dataset.i));
+if(!hard)$(".qt").insertAdjacentHTML("afterend",`<div class="mu">💡 Gợi ý: ${esc(q.h)}</div>`);
+S.t0=Date.now();clearInterval(tmr);if(hard){S.left=20;tmr=setInterval(()=>{S.left-=.1;const b=$("#tb");if(b){b.style.width=S.left/20*100+"%";if(S.left<6)b.style.background="#dc2626"}if(S.left<=0)ans(-1)},100)}}
+function ans(k){clearInterval(tmr);const q=S.order[S.i],hard=S.mode==="hard",ok=k>=0&&S.opts[k]===q.a,tm=(Date.now()-S.t0)/1000;
+if(ok){S.streak++;S.best=Math.max(S.best,S.streak);S.score+=(hard?20+Math.max(0,Math.floor(S.left/2)):10)+Math.min(S.streak-1,5)}else{S.streak=0;if(hard)S.score=Math.max(0,S.score-5)}
+S.log.push({q,pick:k<0?null:S.opts[k],ok,tm:Math.min(tm,20)});
+document.querySelectorAll(".op").forEach((b,i)=>{b.disabled=true;if(S.opts[i]===q.a)b.classList.add("ok");else if(i===k)b.classList.add("no")});
+$("#sc").textContent=S.score;
+if(ok){confetti(S.streak>=3?30:10)}else{const c=$("#cd");c.classList.remove("pop");void c.offsetWidth;c.classList.add("shake")}
+const last=S.i===Q.length-1;
+$("#fx").innerHTML=`<div class="fb">${ok?"✅ Chính xác!":k<0?"⏰ Hết giờ!":"❌ Chưa đúng."} ${hard||!ok?"💡 "+esc(q.h):""}${ok?"":`<br>Đáp án: <b>${esc(q.a)}</b>`}</div><button class="nx" id="nx">${last?"Xem kết quả 🏁":"Câu tiếp ➜"}</button>`;
+$("#nx").onclick=()=>{S.i++;last?finish():showQ()}}
+function cu(el,to){let v=0;const s=Math.max(1,Math.ceil(to/50));const t=setInterval(()=>{v=Math.min(to,v+s);el.textContent=v;if(v>=to)clearInterval(t)},25)}
+function finish(){const n=S.log.length,ok=S.log.filter(x=>x.ok).length,acc=Math.round(ok/n*100),avg=(S.log.reduce((a,x)=>a+x.tm,0)/n).toFixed(1);
+const key="best_"+S.mode,old=+st.get(key)||0,nb=S.score>old;if(nb)st.set(key,S.score);
+const g=acc>=90?"Xuất sắc 🏆":acc>=75?"Giỏi 🌟":acc>=50?"Khá 👍":"Cố lên nhé 💪";
+const cats=["P","F","B"].map(c=>{const a=S.log.filter(x=>x.q.c===c),o=a.filter(x=>x.ok).length;return`<div class="bar">${CAT[c]}: <b>${o}/${a.length}</b><i data-w="${a.length?o/a.length*100:0}"></i></div>`}).join("");
+const wr=S.log.filter(x=>!x.ok).map(x=>`<div class="rv">${esc(x.q.q)}<br>Bạn chọn: <b>${x.pick?esc(x.pick):"(hết giờ)"}</b><br>Đúng: <b>${esc(x.q.a)}</b><br>💡 ${esc(x.q.h)}</div>`).join("")||"<p>Hoàn hảo, không sai câu nào! 🎉</p>";
+app.innerHTML=`<div class="card pop"><h1 style="text-align:center">🏁 Kết quả</h1><p class="gr"><span id="rn"></span> · ${S.mode==="hard"?"🔥 Khó":"🌱 Dễ"}</p><div class="big" id="bs">0</div><div class="gr">${g}</div>${nb?'<p class="gr" style="color:#f59e0b">🎊 Kỷ lục mới!</p>':""}<div class="st"><div><b>${ok}/${n}</b>Câu đúng</div><div><b>${acc}%</b>Chính xác</div><div><b>${S.best}</b>Chuỗi đúng dài nhất</div><div><b>${avg}s</b>TB mỗi câu</div></div><h3>Theo chủ đề</h3>${cats}<details><summary>Xem lại ${n-ok} câu sai</summary>${wr}</details><button class="go" id="again">Chơi lại 🔁</button><button class="go sec" id="hm">Đổi chế độ / tên</button></div>`;
+$("#rn").textContent=S.name;cu($("#bs"),S.score);setTimeout(()=>document.querySelectorAll(".bar i").forEach(i=>i.style.width=i.dataset.w+"%"),100);
+if(acc>=50)confetti(acc>=75?120:50);
+$("#again").onclick=()=>{S={mode:S.mode,name:S.name,order:sh(Q),i:0,score:0,streak:0,best:0,log:[]};countdown()};$("#hm").onclick=home}
+home();
+</script></body></html>
