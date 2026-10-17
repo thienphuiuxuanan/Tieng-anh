@@ -1,158 +1,143 @@
-<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Thử thách Ngữ pháp</title>
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Đề thi Ngữ pháp: Bị động & Tương lai</title>
 <style>
-:root{--bg1:#eef2ff;--bg2:#fdf2f8;--card:#fff;--tx:#1e1b4b;--mu:#6b7280;--pr:#6366f1;--ok:#16a34a;--no:#dc2626;--bd:#e5e7eb;--sh:0 10px 30px rgba(99,102,241,.2);--okb:#dcfce7;--nob:#fee2e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg1:#eef2ff;--bg2:#fdf2f8;--card:#fff;--tx:#1e1b4b;--mu:#6b7280;--pr:#6366f1;--ok:#16a34a;--no:#dc2626;--bd:#e5e7eb;--sh:0 10px 30px rgba(99,102,241,.2);--okb:#dcfce7;--nob:#fee2e2}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--tx:#f1f5f9;--mu:#94a3b8;--bd:#334155;--pr:#818cf8;--sh:0 10px 30px rgba(0,0,0,.5);--okb:#14532d;--nob:#7f1d1d}}
 :root[data-theme="dark"]{color-scheme:dark;--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--tx:#f1f5f9;--mu:#94a3b8;--bd:#334155;--pr:#818cf8;--sh:0 10px 30px rgba(0,0,0,.5);--okb:#14532d;--nob:#7f1d1d}
-*{box-sizing:border-box}html,body{height:auto;margin:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg1));background-size:300% 300%;animation:bg 14s ease infinite;min-height:100vh;overflow-x:hidden}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg1));background-size:300% 300%;animation:bg 14s ease infinite;min-height:100vh;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
 @keyframes bg{50%{background-position:100% 50%}}
-.blob{position:fixed;border-radius:50%;filter:blur(50px);opacity:.35;z-index:0;animation:fl 12s ease-in-out infinite}
-.b1{width:220px;height:220px;background:#6366f1;top:5%;left:-60px}.b2{width:260px;height:260px;background:#ec4899;bottom:5%;right:-80px;animation-delay:-4s}.b3{width:160px;height:160px;background:#f59e0b;top:50%;left:60%;animation-delay:-8s}
+.blob{position:fixed;border-radius:50%;filter:blur(50px);opacity:.3;z-index:0;animation:fl 12s ease-in-out infinite}
+.b1{width:220px;height:220px;background:#6366f1;top:5%;left:-60px}.b2{width:260px;height:260px;background:#ec4899;bottom:5%;right:-80px;animation-delay:-4s}
 @keyframes fl{50%{transform:translate(40px,-50px) scale(1.2)}}
-#app{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:14px}
-#th{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:10px;z-index:5;border:0;border-radius:50%;width:42px;height:42px;font-size:20px;background:var(--card);box-shadow:var(--sh);cursor:pointer}
-.card{background:var(--card);border-radius:20px;padding:20px;box-shadow:var(--sh);margin-top:50px}
-.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.8);opacity:0}}
+#app{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:14px}
+#th{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:20;border:0;border-radius:50%;width:40px;height:40px;font-size:19px;background:var(--card);box-shadow:var(--sh);cursor:pointer}
+.card{background:var(--card);border-radius:20px;padding:20px;box-shadow:var(--sh);margin-top:48px}
+.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.85);opacity:0}}
 .shake{animation:shk .45s}@keyframes shk{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
-h1{margin:0 0 4px;font-size:26px}.mu{color:var(--mu);font-size:14px;margin:0 0 14px}
+h1{margin:0 0 4px;font-size:26px}.mu{color:var(--mu);font-size:13px;margin:4px 0}
 label{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
-input{width:100%;padding:12px;border-radius:12px;border:2px solid var(--bd);background:transparent;color:var(--tx);font-size:16px}input:focus{outline:0;border-color:var(--pr)}
+input{width:100%;padding:11px;border-radius:12px;border:2px solid var(--bd);background:transparent;color:var(--tx);font-size:16px;font-family:inherit}input:focus{outline:0;border-color:var(--pr)}
 .modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mode{border:2px solid var(--bd);background:transparent;color:var(--tx);border-radius:14px;padding:12px;text-align:left;font-size:18px;font-weight:700;cursor:pointer;transition:.2s}
 .mode small{display:block;font-weight:400;font-size:12px;color:var(--mu);margin-top:4px}
 .mode.sel{border-color:var(--pr);background:rgba(99,102,241,.12);transform:scale(1.03)}
-.go,.nx{width:100%;margin-top:18px;padding:14px;border:0;border-radius:14px;font-size:17px;font-weight:700;color:#fff;background:linear-gradient(90deg,#6366f1,#ec4899);cursor:pointer;animation:pl 2s infinite}
+.go{width:100%;margin-top:18px;padding:14px;border:0;border-radius:14px;font-size:17px;font-weight:700;color:#fff;background:linear-gradient(90deg,#6366f1,#ec4899);cursor:pointer;animation:pl 2s infinite}
 @keyframes pl{50%{box-shadow:0 0 0 8px rgba(99,102,241,.2)}}
+.sec{background:transparent;border:2px solid var(--bd);color:var(--tx);animation:none}
 .cd{text-align:center;padding-top:25vh}.num{font-size:120px;font-weight:900;background:linear-gradient(90deg,#6366f1,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent;animation:zm .85s ease-out}
 @keyframes zm{from{transform:scale(2.5);opacity:0}60%{opacity:1}}
-.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;margin:0 50px 8px 0;gap:6px;flex-wrap:wrap}
-.pg{height:10px;background:var(--bd);border-radius:9px;overflow:hidden;margin-bottom:8px}.pg i{display:block;height:100%;background:linear-gradient(90deg,#6366f1,#ec4899);transition:width .4s}
-.tm{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin-bottom:6px}.tm i{display:block;height:100%;background:#f59e0b;transition:width .1s linear}
-.cmb{display:inline-block;background:#f59e0b;color:#fff;border-radius:99px;padding:2px 10px;animation:pop .4s}
-.tag{font-size:12px;color:var(--pr);font-weight:700;text-transform:uppercase}
-.qt{font-size:20px;line-height:1.5;margin:8px 0 16px;font-weight:600}.bl{border-bottom:3px solid var(--pr);padding:0 22px}
-.op{display:flex;gap:10px;width:100%;text-align:left;margin-top:9px;padding:12px;border-radius:12px;border:2px solid var(--bd);background:transparent;color:var(--tx);font-size:16px;cursor:pointer;transition:.15s}
-.op:hover:not(:disabled){border-color:var(--pr);transform:translateX(4px)}.op b{color:var(--pr)}
-.op.ok{background:var(--okb);border-color:var(--ok)}.op.no{background:var(--nob);border-color:var(--no)}.op:disabled{cursor:default}
-.fb{margin-top:12px;padding:12px;border-radius:12px;background:rgba(99,102,241,.1);font-size:14px;animation:pop .3s}
+#hd{position:sticky;top:0;z-index:10;background:var(--card);margin:0 -14px;padding:10px 60px 8px 14px;box-shadow:var(--sh);font-size:14px;font-weight:600;display:flex;gap:12px;flex-wrap:wrap}
+.pg{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;width:100%}.pg i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6366f1,#ec4899);transition:width .3s}
+h2{margin:22px 0 8px;color:var(--pr);font-size:18px}
+.q{display:flex;gap:10px;background:var(--card);border:2px solid var(--bd);border-radius:14px;padding:12px;margin:10px 0;animation:pop .4s backwards}
+.q.ok{border-color:var(--ok);background:var(--okb)}.q.no{border-color:var(--no);background:var(--nob)}
+.qn{flex:none;width:30px;height:30px;border-radius:50%;background:var(--pr);color:#fff;font-weight:700;display:grid;place-items:center;font-size:13px}
+.qb{flex:1;min-width:0}.qt{font-size:17px;line-height:1.9}
+.qt input{display:inline-block;width:190px;max-width:100%;padding:3px 8px;border-radius:8px;border-width:0 0 2px;margin:0 3px;font-size:16px}
+.qt+input,.wide{margin-top:6px}
+.rs{font-size:13px;margin-top:6px}
+.tb{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}.tb th,.tb td{border:1px solid var(--bd);padding:6px 8px;text-align:center}.tb th{background:rgba(99,102,241,.15)}.tb td:first-child{text-align:left}
+.ov{overflow-x:auto}.big{font-size:56px;font-weight:900;text-align:center;color:var(--pr)}.gr{text-align:center;font-size:20px;font-weight:700}
+.x{color:var(--no);font-weight:700}.v{color:var(--ok);font-weight:700}
+.warn{background:#f59e0b;color:#fff;border-radius:12px;padding:10px;margin-top:12px;text-align:center;font-weight:600;animation:pop .3s}
 .cf{position:fixed;top:-20px;width:9px;height:14px;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-.big{font-size:56px;font-weight:900;text-align:center;color:var(--pr)}.gr{text-align:center;font-size:22px;font-weight:700}
-.st{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.st div{background:rgba(99,102,241,.1);border-radius:12px;padding:10px;text-align:center;font-size:13px;color:var(--mu)}.st b{display:block;font-size:22px;color:var(--tx)}
-.bar{margin:8px 0;font-size:13px}.bar i{display:block;height:10px;border-radius:9px;background:linear-gradient(90deg,#16a34a,#84cc16);width:0;transition:width 1.2s;margin-top:3px}
-details{margin-top:12px}summary{cursor:pointer;font-weight:700}.rv{border-left:4px solid var(--no);padding:6px 10px;margin:8px 0;font-size:13px;background:var(--nob);border-radius:0 8px 8px 0}
-.sec{background:transparent;border:2px solid var(--bd);color:var(--tx);animation:none}
-.ai{margin-top:6px}.ai:disabled{opacity:.85}</style></head><body>
-<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+</style></head><body>
+<div class="blob b1"></div><div class="blob b2"></div>
 <button id="th" title="Sáng / tối">🌓</button><div id="app"></div>
 <script>
-const RAW=`P|The window ___ (break) by the boy yesterday.|was broken|broke|has been broken|was break|Quá khứ + bị động: was/were + V3.
-P|English ___ (speak) in many countries.|is spoken|speaks|is speaking|are spoken|Hiện tại đơn bị động: am/is/are + V3; English là số ít.
-P|The report ___ (finish) already.|has been finished|has finished|was finishing|have been finished|already → hiện tại hoàn thành; chủ ngữ số ít → has been + V3.
-P|These cars ___ (make) in Japan.|are made|make|are making|is made|Chủ ngữ số nhiều → are + V3.
-F|Look at the sky! It ___ (rain).|is going to rain|will rain|rains|is raining|Có dấu hiệu ở hiện tại → be going to.
-F|Perhaps she ___ (pass) the exam.|will pass|is going to pass|passes|will be passed|Perhaps/probably/I think (phỏng đoán) → will.
-F|We have booked the hotel, so we ___ (visit) Da Nang next month.|are going to visit|will visit|visit|are going to visited|Đã có kế hoạch từ trước → be going to.
-P|The cake ___ (eat) by the children last night.|was eaten|ate|was ate|had eaten|Bị động quá khứ: was + V3 (eaten).
-F|“The phone is ringing.” – “I ___ (answer) it.”|will answer|am going to answer|answer|will be answered|Quyết định tức thời ngay lúc nói → will.
-B|Look! The old house ___ (demolish).|is going to be demolished|is going to demolish|will demolish|will be demolished|Có dấu hiệu + nhà bị phá (bị động) → is going to be + V3.
-P|The homework ___ (not do) yet.|has not been done|has not done|was not done|did not be done|yet → hiện tại hoàn thành bị động.
-B|Tomorrow the winner ___ (announce) by the judges.|will be announced|will announce|was announced|will be announce|Tương lai + người thắng được công bố → will be + V3.
-F|I promise I ___ (not tell) anyone your secret.|will not tell|do not tell|did not tell|am not going to tell|Lời hứa → will (không dùng be going to).
-F|She is pregnant. She ___ (have) a baby in May.|is going to have|will have|has|is going to has|Có dấu hiệu/dự định rõ ràng → be going to.
-P|This song ___ (write) by a famous singer in 1990.|was written|wrote|is written|was wrote|Năm 1990 → quá khứ; bị động = was + V3.
-P|The room ___ (clean) every day.|is cleaned|cleans|is cleaning|is clean|Thói quen hằng ngày, bị động → is + V3.
-P|The thief ___ (arrest) by the police last week.|was arrested|arrested|has been arrested|was arrest|last week → quá khứ đơn, không dùng hiện tại hoàn thành.
-F|Be careful! You ___ (fall).|are going to fall|will fall|fall|are going to fell|Cảnh báo dựa trên tình huống hiện tại → be going to.
-F|It’s so hot. I ___ (open) the window.|will open|am going to open|open|will be opened|Quyết định ngay lúc nói → will.
-B|The meeting ___ (hold) in this room tomorrow.|will be held|will hold|is hold|was held|Cuộc họp “được tổ chức” → bị động; tomorrow → will be held.
-P|Our house ___ (paint) at the moment.|is being painted|is painting|was painted|is painted|at the moment → tiếp diễn bị động: is/are being + V3.
-B|The students ___ (give) a test next Monday.|will be given|will give|gave|will be give|Học sinh “được phát” bài kiểm tra → will be + V3.
-P|The documents must ___ (sign) before Friday.|be signed|sign|signed|be signing|Modal bị động: modal + be + V3.
-F|He has decided to study medicine. He ___ (study) it at university.|is going to study|will study|studies|is going to studied|Đã quyết định từ trước → be going to.
-F|Don’t worry. I ___ (help) you with that.|will help|am going to help|help|will be helped|Lời đề nghị giúp đỡ tại chỗ → will.
-P|The child ___ (take) to school by his father every morning.|is taken|takes|is taking|is take|Thói quen + bị động → is + V3.
-P|This room ___ (use) for meetings since 2020.|has been used|is used|was used|has used|since 2020 → hiện tại hoàn thành bị động.
-B|Many trees ___ (plant) in the park next spring.|will be planted|will plant|are planted|will be plant|Cây “được trồng” + next spring → will be + V3.
-F|Oh, I have a headache. I think I ___ (take) an aspirin.|will take|am going to take|take|will be taken|Quyết định tức thời → will.
-F|She has bought flour and eggs. She ___ (bake) a cake.|is going to bake|will bake|bakes|is going to be baked|Đã chuẩn bị sẵn → be going to; chủ động nên không bị động.
-P|[Bị động] People speak English all over the world.|English is spoken all over the world.|English speaks all over the world.|English is speaking all over the world.|English was spoken all over the world.
-P|[Bị động] They built this school in 1990.|This school was built in 1990.|This school built in 1990.|This school has been built in 1990.|This school is built in 1990.
-P|[Bị động] Someone has stolen my bike.|My bike has been stolen.|My bike was stolen.|My bike has stolen.|My bike have been stolen.
-B|[Bị động] The teacher will give us a test.|We will be given a test by the teacher.|We will give a test by the teacher.|A test will give us by the teacher.|We are given a test by the teacher.
-P|[Chủ động] The cake was made by my mother.|My mother made the cake.|My mother makes the cake.|My mother has made the cake.|My mother was made the cake.
-B|[Chủ động] A new road will be built by the government.|The government will build a new road.|The government will be built a new road.|The government builds a new road.|The government is going to built a new road.
-P|[Chủ động] The letters have been written by Tom.|Tom has written the letters.|Tom wrote the letters.|Tom had written the letters.|Tom have written the letters.
-B|[Bị động] Tom is going to repair the car.|The car is going to be repaired by Tom.|The car will be repaired by Tom.|The car is going to repair by Tom.|The car is being repaired by Tom.
-P|[Bị động] They are painting the walls.|The walls are being painted.|The walls are painted.|The walls were being painted.|The walls are painting.
-P|[Chủ động] The window was broken by Peter.|Peter broke the window.|Peter has broken the window.|Peter was breaking the window.|Peter breaks the window.
-F|[Be going to] I will meet my friends tonight (đã sắp xếp từ trước).|I am going to meet my friends tonight.|I am going to meeting my friends tonight.|I will going to meet my friends tonight.|I going to meet my friends tonight.
-F|[Phủ định] She will come to the party.|She will not come to the party.|She does not come to the party.|She will not comes to the party.|She will not to come to the party.
-F|[Nghi vấn] They will move to London.|Will they move to London?|Do they will move to London?|Are they going to moved to London?|Will they to move to London?
-F|[Phủ định] He is going to sell his car.|He is not going to sell his car.|He does not going to sell his car.|He will not going to sell his car.|He is not going to sells his car.
-F|[Nghi vấn] You are going to buy a new phone.|Are you going to buy a new phone?|Do you going to buy a new phone?|Will you going to buy a new phone?|Are you going to buying a new phone?
-B|[Bị động] Someone will clean the office tomorrow.|The office will be cleaned tomorrow.|The office will clean tomorrow.|The office is cleaned tomorrow.|The office will be cleaning tomorrow.
-B|[Bị động] The company is going to launch a new product.|A new product is going to be launched by the company.|A new product will be launched by the company.|A new product is going to launch by the company.|A new product is going to be launching by the company.
-P|[Bị động] They did not invite me to the party.|I was not invited to the party.|I did not invited to the party.|I was not invite to the party.|I have not been invited to the party.
-P|[Bị động – nghi vấn] Did someone open the door?|Was the door opened?|Did the door open?|Was the door open?|Is the door opened?
-P|[Bị động] You must finish this work today.|This work must be finished today.|This work must finish today.|This work must be finish today.|This work is must finished today.`;
-const DEF={P:"Giữ nguyên thì của câu gốc; bị động = be + V3.",F:"Will + V (tức thời, hứa, phỏng đoán); be going to + V (dự định, có dấu hiệu).",B:"Tương lai bị động: will be + V3 / is (am, are) going to be + V3."};
-const Q=RAW.trim().split("\n").map(l=>{const [c,q,a,w1,w2,w3,h]=l.split("|");return{c,q,a,w:[w1,w2,w3],h:h||DEF[c]}});
-const CAT={P:"Chủ động ⇄ Bị động",F:"Tương lai đơn ⇄ gần",B:"Bị động tương lai"};
+const RAW=`P|The window ___ (break) by the boy yesterday.|was broken|Quá khứ + bị động: was/were + V3.
+P|English ___ (speak) in many countries.|is spoken|Hiện tại đơn bị động: am/is/are + V3.
+P|The report ___ (finish) already.|has been finished|already → hiện tại hoàn thành bị động.
+P|These cars ___ (make) in Japan.|are made|Chủ ngữ số nhiều → are + V3.
+F|Look at the sky! It ___ (rain).|is going to rain|Có dấu hiệu ở hiện tại → be going to.
+F|Perhaps she ___ (pass) the exam.|will pass|Perhaps/probably (phỏng đoán) → will.
+F|We have booked the hotel, so we ___ (visit) Da Nang next month.|are going to visit|Đã có kế hoạch từ trước → be going to.
+P|The cake ___ (eat) by the children last night.|was eaten|Quá khứ bị động: was + V3.
+F|“The phone is ringing.” – “I ___ (answer) it.”|will answer|Quyết định tức thời → will.
+B|Look! The old house ___ (demolish).|is going to be demolished|Có dấu hiệu + bị động → is going to be + V3.
+P|The homework ___ (not do) yet.|has not been done|yet → hiện tại hoàn thành bị động.
+B|Tomorrow the winner ___ (announce) by the judges.|will be announced|Tương lai bị động: will be + V3.
+F|I promise I ___ (not tell) anyone your secret.|will not tell|Lời hứa → will.
+F|She is pregnant. She ___ (have) a baby in May.|is going to have|Có dấu hiệu rõ ràng → be going to.
+P|This song ___ (write) by a famous singer in 1990.|was written|Năm 1990 → quá khứ bị động.
+P|The room ___ (clean) every day.|is cleaned|Thói quen + bị động → is + V3.
+P|The thief ___ (arrest) by the police last week.|was arrested|last week → quá khứ đơn, không dùng hiện tại hoàn thành.
+F|Be careful! You ___ (fall).|are going to fall|Cảnh báo dựa trên tình huống hiện tại → be going to.
+F|It’s so hot. I ___ (open) the window.|will open|Quyết định ngay lúc nói → will.
+B|The meeting ___ (hold) in this room tomorrow.|will be held|Tương lai bị động: will be + V3.
+P|Our house ___ (paint) at the moment.|is being painted|at the moment → is being + V3.
+B|The students ___ (give) a test next Monday.|will be given|Tương lai bị động: will be + V3.
+P|The documents must ___ (sign) before Friday.|be signed|Modal bị động: modal + be + V3.
+F|He has decided to study medicine. He ___ (study) it at university.|is going to study|Đã quyết định từ trước → be going to.
+F|Don’t worry. I ___ (help) you with that.|will help|Lời đề nghị tại chỗ → will.
+P|The child ___ (take) to school by his father every morning.|is taken|Thói quen + bị động → is + V3.
+P|This room ___ (use) for meetings since 2020.|has been used|since → hiện tại hoàn thành bị động.
+B|Many trees ___ (plant) in the park next spring.|will be planted|Tương lai bị động: will be + V3.
+F|Oh, I have a headache. I think I ___ (take) an aspirin.|will take|Quyết định tức thời → will.
+F|She has bought flour and eggs. She ___ (bake) a cake.|is going to bake|Đã chuẩn bị sẵn → be going to (chủ động).
+P|[Bị động] People speak English all over the world.|English is spoken all over the world.
+P|[Bị động] They built this school in 1990.|This school was built in 1990.
+P|[Bị động] Someone has stolen my bike.|My bike has been stolen.
+B|[Bị động] The teacher will give us a test.|We will be given a test by the teacher.
+P|[Chủ động] The cake was made by my mother.|My mother made the cake.
+B|[Chủ động] A new road will be built by the government.|The government will build a new road.
+P|[Chủ động] The letters have been written by Tom.|Tom has written the letters.
+B|[Bị động] Tom is going to repair the car.|The car is going to be repaired by Tom.
+P|[Bị động] They are painting the walls.|The walls are being painted.
+P|[Chủ động] The window was broken by Peter.|Peter broke the window.
+F|[Be going to] I will meet my friends tonight (đã sắp xếp từ trước).|I am going to meet my friends tonight.
+F|[Phủ định] She will come to the party.|She will not come to the party.
+F|[Nghi vấn] They will move to London.|Will they move to London?
+F|[Phủ định] He is going to sell his car.|He is not going to sell his car.
+F|[Nghi vấn] You are going to buy a new phone.|Are you going to buy a new phone?
+B|[Bị động] Someone will clean the office tomorrow.|The office will be cleaned tomorrow.
+B|[Bị động] The company is going to launch a new product.|A new product is going to be launched by the company.
+P|[Bị động] They did not invite me to the party.|I was not invited to the party.
+P|[Bị động – nghi vấn] Did someone open the door?|Was the door opened?
+P|[Bị động] You must finish this work today.|This work must be finished today.`;
+const DEF={P:"Giữ nguyên thì của câu gốc; bị động = be + V3.",F:"will + V (tức thời, hứa, phỏng đoán); be going to + V (dự định, có dấu hiệu).",B:"Tương lai bị động: will be + V3 / is (am, are) going to be + V3."};
+const ALT={"will be announced":["is going to be announced"],"will be held":["is going to be held"],"will be given":["are going to be given"],"will be planted":["are going to be planted"],"We will be given a test by the teacher.":["A test will be given to us by the teacher.","A test will be given to us."]};
+const CAT={P:"Chủ động ⇄ Bị động",F:"Tương lai đơn ⇄ tương lai gần",B:"Bị động ở tương lai"};
+const Q=RAW.trim().split("\n").map(l=>{const [c,q,a,h]=l.split("|");return{c,q,a,h:h||DEF[c],t:q[0]==="["}});
 const $=s=>document.querySelector(s),app=$("#app");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const st={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-let S={mode:"easy"},tmr;
 const th=st.get("theme");if(th)document.documentElement.dataset.theme=th;
 $("#th").onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const n=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=n;st.set("theme",n)};
-function confetti(n){const cl=["#6366f1","#ec4899","#f59e0b","#22c55e","#06b6d4"];for(let i=0;i<n;i++){const e=document.createElement("i");e.className="cf";e.style.cssText=`left:${Math.random()*100}vw;background:${cl[i%5]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),4500)}}
-function home(){const nm=st.get("name")||"";app.innerHTML=`<div class="card pop"><h1>📚 Thử thách Ngữ pháp</h1><p class="mu">50 câu · Chủ động ⇄ Bị động · Tương lai đơn ⇄ Tương lai gần</p><label>Tên của bạn</label><input id="nm" maxlength="20" placeholder="Nhập tên…" value="${esc(nm)}"><label>Chế độ</label><div class="modes"><button class="mode sel" data-m="easy">🌱 Dễ<small>Tự gõ đáp án · có gợi ý + từ đầu tiên · không giới hạn giờ</small><small>Kỷ lục: ${st.get("best_easy")||0}</small></button><button class="mode" data-m="hard">🔥 Khó<small>Tự gõ đáp án · câu có bẫy · không gợi ý · 25–45 giây/câu · sai bị trừ điểm</small><small>Kỷ lục: ${st.get("best_hard")||0}</small></button></div><button class="go" id="go">Bắt đầu ➜</button></div>`;S.mode="easy";
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");S.mode=b.dataset.m});
-$("#go").onclick=()=>{const v=$("#nm").value.trim();if(!v){const c=$(".card");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");$("#nm").focus();return}st.set("name",v);S={mode:S.mode,name:v,order:sh(Q),i:0,score:0,streak:0,best:0,log:[]};countdown()}}
-function countdown(){app.innerHTML=`<div class="cd"><div class="num" id="cn">3</div><p class="gr">Sẵn sàng nào, <span id="cname"></span>!</p></div>`;$("#cname").textContent=S.name;const seq=["3","2","1","GO!"];let k=0;const n=$("#cn");const t=setInterval(()=>{k++;if(k>=seq.length){clearInterval(t);confetti(40);return setTimeout(showQ,600)}n.textContent=seq[k];n.style.animation="none";void n.offsetWidth;n.style.animation=""},850)}
-function showQ(){const q=S.order[S.i],hard=S.mode==="hard";S.opts=sh([q.a,...q.w.slice(0,hard?3:2)]);const tr=q.q[0]==="[";
-const qt=esc(q.q).replace(/___/g,'<span class="bl"></span>');
-app.innerHTML=`<div class="top"><span>👤 ${esc(S.name)}</span><span>Câu ${S.i+1}/${Q.length}</span><span>⭐ <b id="sc">${S.score}</b></span>${S.streak>=3?`<span class="cmb">🔥 x${S.streak}</span>`:""}</div><div class="pg"><i style="width:${S.i/Q.length*100}%"></i></div>${hard?'<div class="tm"><i id="tb" style="width:100%"></i></div>':""}<div class="card pop" id="cd" style="margin-top:8px"><div class="tag">${tr?"Chuyển câu":"Điền vào chỗ trống"} · ${hard?"Khó":"Dễ"}</div><div class="qt">${qt}</div><div id="ops">${S.opts.map((o,i)=>`<button class="op" data-i="${i}"><b>${"ABCD"[i]}</b><span>${esc(o)}</span></button>`).join("")}</div><div id="fx"></div></div>`;
-document.querySelectorAll(".op").forEach(b=>b.onclick=()=>ans(+b.dataset.i));
-if(!hard)$(".qt").insertAdjacentHTML("afterend",`<div class="mu">💡 Gợi ý: ${esc(q.h)}</div>`);
-S.t0=Date.now();clearInterval(tmr);if(hard){S.left=20;tmr=setInterval(()=>{S.left-=.1;const b=$("#tb");if(b){b.style.width=S.left/20*100+"%";if(S.left<6)b.style.background="#dc2626"}if(S.left<=0)ans(-1)},100)}}
-function ans(k){clearInterval(tmr);const q=S.order[S.i],hard=S.mode==="hard",ok=k>=0&&S.opts[k]===q.a,tm=(Date.now()-S.t0)/1000;
-if(ok){S.streak++;S.best=Math.max(S.best,S.streak);S.score+=(hard?20+Math.max(0,Math.floor(S.left/2)):10)+Math.min(S.streak-1,5)}else{S.streak=0;if(hard)S.score=Math.max(0,S.score-5)}
-S.log.push({q,pick:k<0?null:S.opts[k],ok,tm:Math.min(tm,20)});
-document.querySelectorAll(".op").forEach((b,i)=>{b.disabled=true;if(S.opts[i]===q.a)b.classList.add("ok");else if(i===k)b.classList.add("no")});
-$("#sc").textContent=S.score;
-if(ok){confetti(S.streak>=3?30:10)}else{const c=$("#cd");c.classList.remove("pop");void c.offsetWidth;c.classList.add("shake")}
-const last=S.i===Q.length-1;
-$("#fx").innerHTML=`<div class="fb">${ok?"✅ Chính xác!":k<0?"⏰ Hết giờ!":"❌ Chưa đúng."} ${hard||!ok?"💡 "+esc(q.h):""}${ok?"":`<br>Đáp án: <b>${esc(q.a)}</b>`}</div><button class="nx" id="nx">${last?"Xem kết quả 🏁":"Câu tiếp ➜"}</button>`;
-$("#nx").onclick=()=>{S.i++;last?finish():showQ()}}
-function cu(el,to){let v=0;const s=Math.max(1,Math.ceil(to/50));const t=setInterval(()=>{v=Math.min(to,v+s);el.textContent=v;if(v>=to)clearInterval(t)},25)}
-function finish(){const n=S.log.length,ok=S.log.filter(x=>x.ok).length,acc=Math.round(ok/n*100),avg=(S.log.reduce((a,x)=>a+x.tm,0)/n).toFixed(1);
-const key="best_"+S.mode,old=+st.get(key)||0,nb=S.score>old;if(nb)st.set(key,S.score);
-const g=acc>=90?"Xuất sắc 🏆":acc>=75?"Giỏi 🌟":acc>=50?"Khá 👍":"Cố lên nhé 💪";
-const cats=["P","F","B"].map(c=>{const a=S.log.filter(x=>x.q.c===c),o=a.filter(x=>x.ok).length;return`<div class="bar">${CAT[c]}: <b>${o}/${a.length}</b><i data-w="${a.length?o/a.length*100:0}"></i></div>`}).join("");
-const wr=S.log.filter(x=>!x.ok).map(x=>`<div class="rv">${esc(x.q.q)}<br>Bạn chọn: <b>${x.pick?esc(x.pick):"(hết giờ)"}</b><br>Đúng: <b>${esc(x.q.a)}</b><br>💡 ${esc(x.q.h)}</div>`).join("")||"<p>Hoàn hảo, không sai câu nào! 🎉</p>";
-app.innerHTML=`<div class="card pop"><h1 style="text-align:center">🏁 Kết quả</h1><p class="gr"><span id="rn"></span> · ${S.mode==="hard"?"🔥 Khó":"🌱 Dễ"}</p><div class="big" id="bs">0</div><div class="gr">${g}</div>${nb?'<p class="gr" style="color:#f59e0b">🎊 Kỷ lục mới!</p>':""}<div class="st"><div><b>${ok}/${n}</b>Câu đúng</div><div><b>${acc}%</b>Chính xác</div><div><b>${S.best}</b>Chuỗi đúng dài nhất</div><div><b>${avg}s</b>TB mỗi câu</div></div><h3>Theo chủ đề</h3>${cats}<details><summary>Xem lại ${n-ok} câu sai</summary>${wr}</details><button class="go" id="again">Chơi lại 🔁</button><button class="go sec" id="hm">Đổi chế độ / tên</button></div>`;
-$("#rn").textContent=S.name;cu($("#bs"),S.score);setTimeout(()=>document.querySelectorAll(".bar i").forEach(i=>i.style.width=i.dataset.w+"%"),100);
-if(acc>=50)confetti(acc>=75?120:50);
-$("#again").onclick=()=>{S={mode:S.mode,name:S.name,order:sh(Q),i:0,score:0,streak:0,best:0,log:[]};countdown()};$("#hm").onclick=home}
-home();
-</script><script>
-const ALT={"will be announced":["is going to be announced"],"will be held":["is going to be held"],"will be given":["are going to be given"],"will be planted":["are going to be planted"],"We will be given a test by the teacher.":["A test will be given to us by the teacher.","A test will be given to us."]};
 const norm=s=>{s=String(s).toLowerCase().replace(/[’‘]/g,"'").replace(/won't/g,"will not").replace(/can't/g,"cannot").replace(/n't/g," not").replace(/'ll/g," will").replace(/'m/g," am").replace(/'re/g," are").replace(/'s going/g," is going").replace(/[.,!?;:"“”]/g," ").replace(/\s+/g," ").trim();return s.replace(/ by (?:the |a |an |my |his |her |our |their )?\w+(?: \w+)?$/,"")};
-function showQ(){const q=S.order[S.i],hard=S.mode==="hard",tr=q.q[0]==="[";S.done=false;S.max=hard?(tr?45:25):0;
-const qt=esc(q.q).replace(/___/g,'<span class="bl"></span>');
-app.innerHTML=`<div class="top"><span>👤 ${esc(S.name)}</span><span>Câu ${S.i+1}/${Q.length}</span><span>⭐ <b id="sc">${S.score}</b></span>${S.streak>=3?`<span class="cmb">🔥 x${S.streak}</span>`:""}</div><div class="pg"><i style="width:${S.i/Q.length*100}%"></i></div>${hard?'<div class="tm"><i id="tb" style="width:100%"></i></div>':""}<div class="card pop" id="cd" style="margin-top:8px"><div class="tag">${tr?"Chuyển câu · gõ cả câu":"Điền vào chỗ trống · gõ phần còn thiếu"} · ${hard?"Khó":"Dễ"}</div><div class="qt">${qt}</div>${hard?"":`<div class="mu">💡 Gợi ý: ${esc(q.h)}<br>🔤 Từ đầu tiên: <b>${esc(q.a.split(" ")[0])}</b></div>`}<input class="ai" id="ai" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Nhập đáp án…"><button class="go" id="sb">Nộp bài ➜</button><div id="fx"></div></div>`;
-const ai=$("#ai");ai.focus();$("#sb").onclick=()=>ans(ai.value.trim()||"");
-ai.onkeydown=e=>{if(e.key==="Enter"){S.done?$("#nx").click():ans(ai.value.trim())}};
-S.t0=Date.now();clearInterval(tmr);if(hard){S.left=S.max;tmr=setInterval(()=>{S.left-=.1;const b=$("#tb");if(b){b.style.width=S.left/S.max*100+"%";if(S.left<6)b.style.background="#dc2626"}if(S.left<=0)ans(null)},100)}}
-function ans(txt){clearInterval(tmr);if(S.done)return;S.done=true;const q=S.order[S.i],hard=S.mode==="hard";
-const ok=txt!==null&&txt!==""&&[q.a,...(ALT[q.a]||[])].some(a=>norm(a)===norm(txt)),tm=Math.min((Date.now()-S.t0)/1000,120);
-if(ok){S.streak++;S.best=Math.max(S.best,S.streak);S.score+=(hard?20+Math.max(0,Math.floor(S.left/5)):10)+Math.min(S.streak-1,5)}else{S.streak=0;if(hard)S.score=Math.max(0,S.score-5)}
-S.log.push({q,pick:txt||null,ok,tm});
-const ai=$("#ai");ai.disabled=true;ai.style.borderColor=ok?"var(--ok)":"var(--no)";$("#sb").remove();$("#sc").textContent=S.score;
-if(ok){confetti(S.streak>=3?30:10)}else{const c=$("#cd");c.classList.remove("pop");void c.offsetWidth;c.classList.add("shake")}
-const last=S.i===Q.length-1;
-$("#fx").innerHTML=`<div class="fb">${ok?"✅ Chính xác!":txt===null?"⏰ Hết giờ!":"❌ Chưa đúng."}${ok?"":`<br>Đáp án: <b>${esc(q.a)}</b>`}<br>💡 ${esc(q.h)}</div><button class="nx" id="nx">${last?"Xem kết quả 🏁":"Câu tiếp ➜"}</button>`;
-$("#nx").onclick=()=>{S.i++;last?finish():showQ()}}
+const accept=q=>{const l=[q.a,...(ALT[q.a]||[])];l.forEach(a=>{if(/going to/.test(a)&&!q.t)l.push(a.replace(/^(am|is|are) (not )?/,"$2"))});return l};
+function confetti(n){const cl=["#6366f1","#ec4899","#f59e0b","#22c55e","#06b6d4"];for(let i=0;i<n;i++){const e=document.createElement("i");e.className="cf";e.style.cssText=`left:${Math.random()*100}vw;background:${cl[i%5]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),4500)}}
+let S={mode:"easy"},tmr;
+function home(){clearInterval(tmr);const nm=st.get("name")||"";app.innerHTML=`<div class="card pop"><h1>📝 Đề thi Ngữ pháp</h1><p class="mu">50 câu · Chủ động ⇄ Bị động · Tương lai đơn (will) ⇄ Tương lai gần (be going to)</p><label>Tên của bạn</label><input id="nm" maxlength="20" placeholder="Nhập tên…" value="${esc(nm)}"><label>Chế độ</label><div class="modes"><button class="mode sel" data-m="easy">🌱 Dễ<small>Có gợi ý + từ đầu tiên của đáp án · không giới hạn giờ</small><small>Kỷ lục: ${st.get("best_easy")||0}/10</small></button><button class="mode" data-m="hard">🔥 Khó<small>Không gợi ý · câu có bẫy từ khóa · 30 phút, hết giờ tự nộp</small><small>Kỷ lục: ${st.get("best_hard")||0}/10</small></button></div><p class="mu">Cách làm: làm lần lượt từ câu 1 đến 50, rồi bấm “Nộp bài” để chấm và xem bảng thống kê. Câu will / be going to thì gõ cả cụm, ví dụ <b>will buy</b> hoặc <b>is going to buy</b>.</p><button class="go" id="go">Bắt đầu ➜</button></div>`;S.mode="easy";
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");S.mode=b.dataset.m});
+$("#go").onclick=()=>{const v=$("#nm").value.trim();if(!v){const c=$(".card");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");$("#nm").focus();return}st.set("name",v);S={mode:S.mode,name:v};countdown()}}
+function countdown(){app.innerHTML=`<div class="cd"><div class="num" id="cn">3</div><p class="gr">Sẵn sàng nào, <span id="cname"></span>!</p></div>`;$("#cname").textContent=S.name;const seq=["3","2","1","GO!"];let k=0;const n=$("#cn");const t=setInterval(()=>{k++;if(k>=seq.length){clearInterval(t);confetti(40);return setTimeout(exam,600)}n.textContent=seq[k];n.style.animation="none";void n.offsetWidth;n.style.animation=""},850)}
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(Math.floor(s%60)).padStart(2,"0");
+function exam(){const hard=S.mode==="hard";S.warn=false;S.done=false;S.t0=Date.now();
+let h=`<div id="hd"><span>👤 <span id="hn"></span></span><span>✍️ <b id="an">0</b>/50</span><span>⏱ <b id="tm">${hard?"30:00":"00:00"}</b></span><span>${hard?"🔥 Khó":"🌱 Dễ"}</span><div class="pg"><i id="pb"></i></div></div><div id="res"></div><div id="qs">`;
+Q.forEach((q,i)=>{if(i===0)h+="<h2>PART A · Điền dạng đúng của động từ trong ngoặc</h2>";if(i===30)h+="<h2>PART B · Viết lại câu theo yêu cầu trong [ ]</h2>";
+const hint=hard?"":`<div class="mu">💡 ${esc(q.h)} · 🔤 Bắt đầu bằng: <b>${esc(q.a.split(" ")[0])}</b></div>`;
+const inp=`<input data-i="${i}" class="ai${q.t?" wide":""}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${q.t?"Gõ cả câu…":"…"}">`;
+h+=`<div class="q" id="q${i}" style="animation-delay:${Math.min(i,8)*.05}s"><div class="qn">${i+1}</div><div class="qb"><div class="qt">${q.t?esc(q.q):esc(q.q).replace("___",inp)}</div>${q.t?inp:""}${hint}<div class="rs"></div></div></div>`});
+h+=`</div><div id="wn"></div><button class="go" id="sub">📤 Nộp bài</button><div style="height:30px"></div>`;
+app.innerHTML=h;$("#hn").textContent=S.name;
+app.oninput=()=>{const n=[...document.querySelectorAll(".ai")].filter(x=>x.value.trim()).length;$("#an").textContent=n;$("#pb").style.width=n/50*100+"%"};
+app.onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("ai")){e.preventDefault();const a=[...document.querySelectorAll(".ai")],i=a.indexOf(e.target);(a[i+1]||$("#sub")).focus()}};
+$("#sub").onclick=()=>{const n=+$("#an").textContent;if(n<50&&!S.warn){S.warn=true;$("#wn").innerHTML=`<div class="warn">⚠️ Còn ${50-n} câu chưa làm. Bấm “Nộp bài” lần nữa nếu muốn nộp luôn.</div>`;const b=$("#sub");b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");return}grade()};
+tmr=setInterval(()=>{const s=(Date.now()-S.t0)/1000;if(hard){const l=Math.max(0,1800-s);$("#tm").textContent=fmt(l);if(l<300)$("#tm").style.color="var(--no)";if(l<=0)grade()}else $("#tm").textContent=fmt(s)},500)}
+function grade(){if(S.done)return;S.done=true;clearInterval(tmr);const used=Math.min((Date.now()-S.t0)/1000,1800);
+const R=Q.map((q,i)=>{const el=document.querySelector(`[data-i="${i}"]`),v=el.value.trim(),ok=!!v&&accept(q).some(a=>norm(a)===norm(v));el.disabled=true;
+const b=$("#q"+i);b.classList.add(ok?"ok":"no");b.querySelector(".rs").innerHTML=ok?'<span class="v">✅ Đúng</span>':`<span class="x">❌ ${v?"Sai":"Bỏ trống"}</span> · Đáp án: <b>${esc(q.a)}</b><br>💡 ${esc(q.h)}`;return{q,v,ok,i}});
+$("#sub").remove();$("#wn").innerHTML="";const ok=R.filter(r=>r.ok).length,sc=ok*.2,pct=Math.round(ok/50*100);
+const key="best_"+S.mode,nb=sc>(+st.get(key)||0);if(nb)st.set(key,sc.toFixed(1));
+const g=pct>=90?"Xuất sắc 🏆":pct>=75?"Giỏi 🌟":pct>=50?"Khá 👍":"Cố lên nhé 💪";
+const row=(l,f)=>{const a=R.filter(f),o=a.filter(r=>r.ok).length,b=a.filter(r=>!r.v).length;return`<tr><td>${l}</td><td class="v">${o}</td><td class="x">${a.length-o-b}</td><td>${b}</td><td><b>${a.length?Math.round(o/a.length*100):0}%</b></td></tr>`};
+const head="<tr><th>Nội dung</th><th>Đúng</th><th>Sai</th><th>Trống</th><th>%</th></tr>";
+const det=R.map(r=>`<tr><td>${r.i+1}</td><td>${r.v?esc(r.v):"—"}</td><td>${esc(r.q.a)}</td><td>${r.ok?"✅":"❌"}</td></tr>`).join("");
+$("#res").innerHTML=`<div class="card pop" style="margin-top:14px"><h1 style="text-align:center">🏁 Kết quả</h1><p class="gr"><span id="rn"></span> · ${S.mode==="hard"?"🔥 Khó":"🌱 Dễ"}</p><div class="big"><span id="bs">0.0</span>/10</div><div class="gr">${g}</div>${nb?'<p class="gr" style="color:#f59e0b">🎊 Kỷ lục mới!</p>':""}<p class="mu" style="text-align:center">${ok}/50 câu đúng · Thời gian làm bài ${fmt(used)}</p><h3>📊 Thống kê theo phần và chủ đề</h3><div class="ov"><table class="tb">${head}${row("Part A (điền)",r=>!r.q.t)}${row("Part B (viết lại)",r=>r.q.t)}${["P","F","B"].map(c=>row(CAT[c],r=>r.q.c===c)).join("")}<tr><td><b>Tổng</b></td><td class="v">${ok}</td><td class="x">${R.filter(r=>r.v&&!r.ok).length}</td><td>${R.filter(r=>!r.v).length}</td><td><b>${pct}%</b></td></tr></table></div><details><summary><b>Bảng chi tiết 50 câu</b></summary><div class="ov"><table class="tb"><tr><th>Câu</th><th>Bạn trả lời</th><th>Đáp án</th><th></th></tr>${det}</table></div></details><button class="go" id="again">Làm lại 🔁</button><button class="go sec" id="hm">Đổi chế độ / tên</button></div>`;
+$("#rn").textContent=S.name;let v=0;const t=setInterval(()=>{v=Math.min(sc,v+.2);$("#bs").textContent=v.toFixed(1);if(v>=sc)clearInterval(t)},40);
+if(pct>=50)confetti(pct>=75?120:50);scrollTo({top:0,behavior:"smooth"});
+$("#again").onclick=()=>countdown();$("#hm").onclick=home}
+home();
 </script></body></html>
